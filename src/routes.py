@@ -99,7 +99,7 @@ async def get_participants():
     return participants_db.getAll()
 
 
-@participant_router.get("/round/{round}")
+@participant_router.get("/round/{round_num}")
 async def get_participants_by_round(
     round_num: Annotated[int, Path(title="Round number", gt=0, lt=4)]
 ):
@@ -113,8 +113,9 @@ async def get_participants_by_round(
     list: A sorted list of participants if found, otherwise returns an error dictionary.
     """
     result = participants_db.getBy({"round_num": round_num})
-    if len(result) == 1:
-        return result.sort(key=lambda x: x["turn"])
+    if len(result) > 0:
+        result = sorted(result, key=lambda x: x["turn"])
+        return result
     return {"error": "Round not found"}
 
 
