@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  eurovision-24-srv:
+    build: .
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      - FASTAPI_DEBUG=True
+    volumes:
+      - ./data:/app/data
