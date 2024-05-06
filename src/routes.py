@@ -58,7 +58,7 @@ def add_user(request: Request, user: User, apikey: str):
     return {"msg": "User added successfully"}
 
 
-@user_router.get("/user/{apikey}")
+@user_router.get("/{apikey}")
 def get_user_by_apikey(request: Request, apikey: str):
     """
     Retrieve a user from the database based on their API key.
@@ -72,6 +72,7 @@ def get_user_by_apikey(request: Request, apikey: str):
     """
     users = users_db.getBy({"apikey": apikey})
     retval = {
+        "id": users[0]["id"],
         "username": users[0]["username"],
         "profile_picture": users[0]["profile_picture"],
         "isAdmin": users[0]["isAdmin"],
