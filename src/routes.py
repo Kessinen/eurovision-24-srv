@@ -79,11 +79,16 @@ def get_user_by_apikey(request: Request, apikey: str):
     }
     return retval
 
+class UserLogin(BaseModel):
+    username: str
+    password: str
 
 @user_router.post("/login")
-def login(request: Request, username: str, pin: int):
+def login(request: Request, user: UserLogin):
     retval = {"apikey": None}
-    result = users_db.getBy({"username": username, "pin": pin})
+    
+    result = users_db.getBy({"username": user.username, "pin": user.password})
+    print(result)
     if len(result) > 0:
         retval = {"apikey": result[0]["apikey"]}
     return retval
